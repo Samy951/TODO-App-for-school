@@ -1,15 +1,32 @@
-import React, { FC, ChangeEvent, useState } from "react";
+import React, { FC, ChangeEvent, useState, useEffect } from "react";
 import "./App.css";
 import { TodoTask } from "./Components/TodoTask";
 import { ITask } from "./Interfaces";
 
-let taskIdCounter = 0; // Compteur pour générer des ID uniques
+let taskIdCounter = Date.now();
 
 const App: FC = () => {
   const [task, setTask] = useState<string>("");
   const [deadline, setDealine] = useState<number>(0);
   const [todoList, setTodoList] = useState<ITask[]>([]);
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const tasks = localStorage.getItem("todoList");
+    if (tasks) {
+      setTodoList(JSON.parse(tasks));
+    }
+    // Charger le dernier ID de tâche utilisé si disponible
+    const lastTaskId = localStorage.getItem("taskIdCounter");
+    if (lastTaskId) {
+      taskIdCounter = parseInt(lastTaskId, 10);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+    localStorage.setItem("taskIdCounter", taskIdCounter.toString());
+  }, [todoList]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.name === "task") {
