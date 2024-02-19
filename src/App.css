@@ -97,3 +97,20 @@ body {
 .editButton {
   margin-right: 3px;
 }
+.task-completed {
+  text-decoration: line-through;
+  color: grey;
+}
+.completed {
+  background-color: #f0f0f0;
+}
+.status-indicator {
+  padding: 2px 5px;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
